@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.example.snapprint.ui.theme.SnapPrintTheme
 
 @Composable
-fun ChoosePickupScreen(modifier : Modifier = Modifier){
+fun ChoosePickupScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
     val radioOptions = listOf("College", "Home")
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[1]) }
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally){
@@ -86,7 +86,7 @@ fun ChoosePickupScreen(modifier : Modifier = Modifier){
         Button(onClick = { /*TODO*/ }) {
             Text("Tap to add address")
         }
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = showNextScreen) {
             Text("Next")
         }
     }
@@ -99,7 +99,7 @@ fun ChoosePickupScreenPreview(){
 
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
-            ChoosePickupScreen(modifier = Modifier)
+            ChoosePickupScreen(modifier = Modifier, {"do nothing"})
         }
     }
 }

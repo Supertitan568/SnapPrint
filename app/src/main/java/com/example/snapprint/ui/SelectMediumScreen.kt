@@ -63,7 +63,7 @@ fun TableScreen2() {
 }
 
 @Composable
-fun SelectMediumScreen(modifier : Modifier = Modifier){
+fun SelectMediumScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
     val radioOptions = listOf("Add Text", "Add Logo", "Add Icon", "Add Effect or Filter", "Continue to Upload")
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[2]) }
 
@@ -137,7 +137,7 @@ fun SelectMediumScreen(modifier : Modifier = Modifier){
                     )
                 }
             }
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = showNextScreen) {
                 Text("Next")
             }
         }
@@ -150,7 +150,7 @@ fun SelectMediumPreview(){
 
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
-            SelectMediumScreen(modifier = Modifier)
+            SelectMediumScreen(modifier = Modifier, {"do nothing"})
         }
     }
 }

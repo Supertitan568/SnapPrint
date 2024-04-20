@@ -35,7 +35,7 @@ import com.example.snapprint.R
 import com.example.snapprint.ui.theme.SnapPrintTheme
 
 @Composable
-fun LoginScreen(modifier : Modifier = Modifier){
+fun LoginScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             modifier = modifier,
@@ -83,7 +83,7 @@ fun LoginScreen(modifier : Modifier = Modifier){
         }
 
         Column(horizontalAlignment = Alignment.CenterHorizontally){
-            Button(onClick = { /* Handle button click */ }) {
+            Button(onClick = showNextScreen) {
                 Text("Login")
             }
 
@@ -100,7 +100,7 @@ fun LoginScreenPreview(){
 
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
-            LoginScreen(modifier = Modifier)
+            LoginScreen(modifier = Modifier, {"Do nothing"})
         }
     }
 }

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 import com.example.snapprint.ui.theme.SnapPrintTheme
 
 @Composable
-fun ThankYouScreen(modifier : Modifier = Modifier){
+fun ThankYouScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             modifier = modifier,
@@ -34,8 +34,13 @@ fun ThankYouScreen(modifier : Modifier = Modifier){
             modifier = modifier,
             text = "Your order has been sent to processing",
             fontSize = 40.sp,
+            lineHeight = 50.sp,
             textAlign = TextAlign.Center
         )
+
+        Button(onClick = showNextScreen) {
+            Text("Home")
+        }
 
     }
 }
@@ -46,7 +51,7 @@ fun ThankYouScreenPreview(){
 
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
-            ThankYouScreen(modifier = Modifier)
+            ThankYouScreen(modifier = Modifier, {"Do nothing"})
         }
     }
 }

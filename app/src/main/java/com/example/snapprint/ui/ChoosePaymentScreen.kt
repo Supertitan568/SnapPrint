@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.example.snapprint.ui.theme.SnapPrintTheme
 
 @Composable
-fun ChoosePaymentScreen(modifier : Modifier = Modifier){
+fun ChoosePaymentScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
     val radioOptions = listOf("Card", "Google Pay", "Samsung Pay", "Gift card")
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[2]) }
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally){
@@ -90,7 +90,7 @@ fun ChoosePaymentScreen(modifier : Modifier = Modifier){
             }
 
         }
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = showNextScreen) {
             Text("Next")
         }
     }
@@ -103,7 +103,7 @@ fun ChoosePaymentScreenPreview(){
 
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
-            ChoosePaymentScreen(modifier = Modifier)
+            ChoosePaymentScreen(modifier = Modifier, {"Do nothing"})
         }
     }
 }

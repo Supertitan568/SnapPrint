@@ -89,7 +89,7 @@ fun TableScreen() {
 }
 
 @Composable
-fun HomeScreen(modifier : Modifier = Modifier){
+fun HomeScreen(modifier : Modifier = Modifier, showNextScreen: () -> Unit){
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             modifier = modifier,
@@ -98,7 +98,7 @@ fun HomeScreen(modifier : Modifier = Modifier){
             textAlign = TextAlign.Center
         )
 
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = showNextScreen) {
             Text("Place Order")
         }
 
@@ -122,7 +122,7 @@ fun HomeScreenPreview(){
 
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
-            HomeScreen(modifier = Modifier)
+            HomeScreen(modifier = Modifier, {1})
         }
     }
 }
