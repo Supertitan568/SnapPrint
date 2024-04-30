@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.snapprint.ui.theme.SnapPrintTheme
 
 @Composable
@@ -28,10 +29,16 @@ fun ChoosePickupScreen(modifier : Modifier = Modifier, showNextScreen : () -> Un
     val radioOptions = listOf("College", "Home")
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[1]) }
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally){
+        Text(
+            modifier = modifier,
+            text = "SNAPPRINT",
+            fontSize = 70.sp,
+            textAlign = TextAlign.Center
+        )
         Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally){
             Text(
                 modifier = modifier,
-                text = "Select Mediums",
+                text = "Select Pickup Location",
                 textAlign = TextAlign.Center
             )
             radioOptions.forEach { text ->

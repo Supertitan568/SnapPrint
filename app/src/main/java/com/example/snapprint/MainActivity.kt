@@ -24,6 +24,17 @@ import com.example.snapprint.ui.LoginScreen
 import com.example.snapprint.ui.theme.SnapPrintTheme
 
 
+class UserOrder(val oN : Int, val dO : String, val oC : String){
+    var orderNum = 0
+    var dateOrdered = ""
+    var orderCategory = ""
+
+    init {
+        this.orderNum = oN
+        this.dateOrdered = dO
+        this.orderCategory = oC
+    }
+}
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,16 +49,17 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun SnapPrintApp(modifier: Modifier = Modifier){
     var onNextClicked by remember { mutableIntStateOf(0) }
+    var orders = mutableListOf(UserOrder(1, "1/1/1970", "Shirt"), UserOrder(2, "9/11/2001", "Mug"), UserOrder(1, "8/12/2003", "Shirt"))
 
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         if(onNextClicked == 0){
             LoginScreen(modifier, showNextScreen = {onNextClicked += 1})
         }
         else if (onNextClicked == 1){
-            HomeScreen(modifier, showNextScreen = {onNextClicked += 1})
+            HomeScreen(modifier, orders, showNextScreen = {onNextClicked += 1}, showLoginScreen = {onNextClicked += 1})
         }
         else if (onNextClicked == 2){
-            SelectMediumScreen(modifier, showNextScreen = {onNextClicked += 1})
+            SelectMediumScreen(modifier, createOrder = fun(newOrder: UserOrder ) {orders.add(newOrder)}, showNextScreen = {onNextClicked += 1}, orderSize = orders.size)
         }
         else if (onNextClicked == 3){
             ChoosePickupScreen(modifier, showNextScreen = {onNextClicked += 1})

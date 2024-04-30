@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.snapprint.R
+import com.example.snapprint.UserOrder
 import com.example.snapprint.ui.theme.SnapPrintTheme
 
 @Composable
@@ -54,11 +55,9 @@ fun RowScope.TableCell(
 }
 
 @Composable
-fun TableScreen() {
+fun TableScreen(orders: MutableList<UserOrder>) {
     // Just a fake data... a Pair of Int and String
-    val tableData = (1..6).mapIndexed { index, item ->
-        index to "Item $index"
-    }
+
     // Each cell of a column must have the same weight.
     val column1Weight = .3f // 30%
     val column2Weight = .3f // 70%
@@ -77,19 +76,27 @@ fun TableScreen() {
             }
         }
         // Here are all the lines of your table.
-        items(tableData) {
-            val (id, text) = it
-            Row(Modifier.fillMaxWidth()) {
-                TableCell(text = id.toString(), weight = column1Weight)
-                TableCell(text = text, weight = column2Weight)
-                TableCell(text = text, weight = column3Weight)
+        items(1) {
+            for (order in 0..6) {
+                Row(Modifier.fillMaxWidth()) {
+                    if (orders.size > order) {
+                        TableCell(text = orders[order].orderNum.toString(), weight = column1Weight)
+                        TableCell(text = orders[order].dateOrdered, weight=column2Weight )
+                        TableCell(text = orders[order].orderCategory, weight = column2Weight)
+                    }
+                    else{
+                        TableCell(text = " ", weight = column1Weight)
+                        TableCell(text = " ", weight = column2Weight)
+                        TableCell(text = " ", weight = column3Weight)
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun HomeScreen(modifier : Modifier = Modifier, showNextScreen: () -> Unit){
+fun HomeScreen(modifier : Modifier = Modifier, orders : MutableList<UserOrder>,  showNextScreen: () -> Unit, showLoginScreen: () -> Unit){
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             modifier = modifier,
@@ -108,9 +115,9 @@ fun HomeScreen(modifier : Modifier = Modifier, showNextScreen: () -> Unit){
                 text = "Current Orders",
                 textAlign = TextAlign.Center
             )
-            TableScreen()
+            TableScreen(orders)
         }
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = showLoginScreen) {
             Text("Sign Out")
         }
     }
@@ -122,7 +129,7 @@ fun HomeScreenPreview(){
 
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
-            HomeScreen(modifier = Modifier, {1})
+            HomeScreen(modifier = Modifier, mutableListOf(UserOrder(1, "1/1/1970", "Shirt"), UserOrder(2, "9/11/2001", "Mug"), UserOrder(3, "8/12/2003", "Shirt")), {"Hello"}, {"Hello"})
         }
     }
 }
