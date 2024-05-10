@@ -2,19 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AddressCreationPreview">
+        <State />
+      </entry>
       <entry key="ChoosePaymentScreenPreview">
         <State />
       </entry>
-      <entry key="ChoosePickupScreenPreview">
+      <entry key="MainActivity">
         <State />
       </entry>
-      <entry key="HomeScreenPreview">
+      <entry key="PaymentCreationPreview">
         <State />
       </entry>
       <entry key="SelectMediumPreview">
-        <State />
-      </entry>
-      <entry key="ThankYouScreenPreview">
         <State />
       </entry>
       <entry key="app">

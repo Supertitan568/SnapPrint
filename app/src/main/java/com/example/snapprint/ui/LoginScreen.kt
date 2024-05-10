@@ -1,3 +1,8 @@
+/*
+*  File Name: LoginScreen.kt
+*  Author: Lane Odenbach
+*  This file logs the user in
+* */
 package com.example.snapprint.ui
 
 import androidx.compose.foundation.Image
@@ -35,7 +40,9 @@ import com.example.snapprint.R
 import com.example.snapprint.ui.theme.SnapPrintTheme
 
 @Composable
-fun LoginScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
+fun LoginScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit, verifyAccountCredentials : (uname : String, pword : String) -> Boolean){
+    //This function logs in the user
+    //The inputs are functions to show the next screen and to verify if the user entered in a valid username and password
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             modifier = modifier,
@@ -58,6 +65,7 @@ fun LoginScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
         }
 
         var username by remember { mutableStateOf(TextFieldValue()) }
+        var password by remember { mutableStateOf(TextFieldValue()) }
         Column{
             TextField(
                 value = username,
@@ -69,8 +77,6 @@ fun LoginScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
                 singleLine = true
             )
             Spacer(modifier = Modifier.height(16.dp))
-            var password by remember { mutableStateOf(TextFieldValue()) }
-
             TextField(
                 value = password,
                 onValueChange = { password = it },
@@ -83,7 +89,12 @@ fun LoginScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
         }
 
         Column(horizontalAlignment = Alignment.CenterHorizontally){
-            Button(onClick = showNextScreen) {
+
+            Button(onClick = {
+                if(verifyAccountCredentials(username.text, password.text)){
+                    showNextScreen()
+                }
+            }) {
                 Text("Login")
             }
 
@@ -97,10 +108,10 @@ fun LoginScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
 @Preview
 @Composable
 fun LoginScreenPreview(){
-
+    //This shows the above composable
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
-            LoginScreen(modifier = Modifier, {"Do nothing"})
+            LoginScreen(modifier = Modifier, {"Do nothing"}, verifyAccountCredentials = {uname: String, pword: String -> true})
         }
     }
 }

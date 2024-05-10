@@ -1,3 +1,8 @@
+/*
+*  File Name: ChoosePaymentScreen.kt
+*  Author: Lane Odenbach
+*  This file contains the composable that chooses the payment method
+* */
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,13 +27,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.snapprint.PaymentMethod
 import com.example.snapprint.ui.theme.SnapPrintTheme
 
+
 @Composable
-fun ChoosePaymentScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
-    val radioOptions = listOf("Card", "Google Pay", "Samsung Pay", "Gift card")
+fun ChoosePaymentScreen(modifier : Modifier = Modifier, payments : MutableList<PaymentMethod>, showNextScreen : () -> Unit, showPaymentCreationScreen: () -> Unit){
+    //This displays the screen that shows all of the payment methods
+    //Inputs are the functions used to move between the different composables
+
+    val radioOptions = mutableListOf<String>()
+
+    //Populates RadioOptions with the different payment methods
+    for(payment in payments){
+        radioOptions.add(payment.type)
+    }
+
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[2]) }
-    Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally){
+
+    Column(modifier = modifier, verticalArrangement = Arrangement.SpaceAround, horizontalAlignment = Alignment.CenterHorizontally){
         Text(
             modifier = modifier,
             text = "SNAPPRINT",
@@ -38,9 +55,10 @@ fun ChoosePaymentScreen(modifier : Modifier = Modifier, showNextScreen : () -> U
         Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally){
             Text(
                 modifier = modifier,
-                text = "Select Mediums",
+                text = "Select Payment Type",
                 textAlign = TextAlign.Center
             )
+            //This creates buttons for each payment method
             radioOptions.forEach { text ->
                 Row(
                     Modifier
@@ -90,8 +108,14 @@ fun ChoosePaymentScreen(modifier : Modifier = Modifier, showNextScreen : () -> U
             }
 
         }
-        Button(onClick = showNextScreen) {
-            Text("Next")
+        Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+
+            Button(onClick = showPaymentCreationScreen) {
+                Text("Add Payment Type")
+            }
+            Button(onClick = showNextScreen) {
+                Text("Next")
+            }
         }
     }
 
@@ -100,10 +124,15 @@ fun ChoosePaymentScreen(modifier : Modifier = Modifier, showNextScreen : () -> U
 @Preview
 @Composable
 fun ChoosePaymentScreenPreview(){
-
+    //Used to Preview the composable above
+    var paymentMethods = mutableListOf(
+        PaymentMethod("123456789", "Lane Odenbach", "1/1/1970", "420", "Apple Pay"),
+        PaymentMethod("987654321", "Liam Meyer", "3/14/15", "696", "Google Pay"),
+        PaymentMethod("420694206", "Caden Graf", "5/4/24", "121", "Credit Card")
+    )
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
-            ChoosePaymentScreen(modifier = Modifier, {"Do nothing"})
+            ChoosePaymentScreen(modifier = Modifier, paymentMethods, {"Do nothing"}, {})
         }
     }
 }

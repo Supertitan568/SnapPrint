@@ -1,3 +1,9 @@
+/*
+*  File Name: ChoosePickupScreen.kt
+*  Author: Lane Odenbach
+*  This file lets the user choose a pickup location
+*
+* */
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -5,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -22,20 +29,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.snapprint.Address
 import com.example.snapprint.ui.theme.SnapPrintTheme
 
 @Composable
-fun ChoosePickupScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
-    val radioOptions = listOf("College", "Home")
+fun ChoosePickupScreen(modifier : Modifier = Modifier, addresses : MutableList<Address>, showNextScreen : () -> Unit, showAdressCreationScreen : () -> Unit){
+    //This function lets the user choose a pickup location
+
+    //Populates radioOptions with the names from the different addresses in addresses
+    val radioOptions = mutableListOf<String>()
+    for(addy in addresses){
+        radioOptions.add(addy.name)
+    }
+
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[1]) }
-    Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally){
+    Column(modifier = modifier, verticalArrangement = Arrangement.SpaceAround, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             modifier = modifier,
             text = "SNAPPRINT",
             fontSize = 70.sp,
             textAlign = TextAlign.Center
         )
-        Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally){
+        Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 modifier = modifier,
                 text = "Select Pickup Location",
@@ -69,7 +84,8 @@ fun ChoosePickupScreen(modifier : Modifier = Modifier, showNextScreen : () -> Un
                     RadioButton(
                         // inside this method we are
                         // adding selected with a option.
-                        selected = (text == selectedOption),modifier = Modifier.padding(all = Dp(value = 8F)),
+                        selected = (text == selectedOption),
+                        modifier = Modifier.padding(all = Dp(value = 8F)),
                         onClick = {
                             // inside on click method we are setting a
                             // selected option of our radio buttons.
@@ -90,11 +106,14 @@ fun ChoosePickupScreen(modifier : Modifier = Modifier, showNextScreen : () -> Un
             }
 
         }
-        Button(onClick = { /*TODO*/ }) {
-            Text("Tap to add address")
-        }
-        Button(onClick = showNextScreen) {
-            Text("Next")
+        Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+
+            Button(onClick = showAdressCreationScreen) {
+                Text("Tap to add address")
+            }
+            Button(onClick = showNextScreen) {
+                Text("Next")
+            }
         }
     }
 
@@ -103,10 +122,10 @@ fun ChoosePickupScreen(modifier : Modifier = Modifier, showNextScreen : () -> Un
 @Preview
 @Composable
 fun ChoosePickupScreenPreview(){
-
+    //This composable displays the above screen
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
-            ChoosePickupScreen(modifier = Modifier, {"do nothing"})
+            ChoosePickupScreen(modifier = Modifier, mutableListOf(Address("",""," ", " ", " ","whatever"), ),  {"do nothing"}, fun(){"do nothing"})
         }
     }
 }

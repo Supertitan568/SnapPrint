@@ -1,4 +1,8 @@
-
+/*
+*  File Name: HomeScreen.kt
+*  Author: Lane Odenbach
+*  This file displays the user's orders and allows them to sign out too
+* */
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -45,6 +49,7 @@ fun RowScope.TableCell(
     text: String,
     weight: Float
 ) {
+    //this creates all of the tables cells for the table below
     Text(
         text = text,
         Modifier
@@ -56,32 +61,34 @@ fun RowScope.TableCell(
 
 @Composable
 fun TableScreen(orders: MutableList<UserOrder>) {
-    // Just a fake data... a Pair of Int and String
-
-    // Each cell of a column must have the same weight.
+    //This function displays a table that is used to show all of the current orders
+    //It just takes in the orders
     val column1Weight = .3f // 30%
     val column2Weight = .3f // 70%
     val column3Weight = .3f
 
-    // The LazyColumn will be our table. Notice the use of the weights below
+    // The LazyColumn is the table here
     LazyColumn(
         Modifier
             .padding(16.dp)) {
-        // Here is the header
+        // Here is the top line
         item {
             Row(Modifier.background(Color.Gray)) {
                 TableCell(text = "Order #", weight = column1Weight)
-                TableCell(text = "Date", weight = column2Weight)
-                TableCell(text = "Status", weight = column3Weight)
+                TableCell(text = "Amount", weight = column2Weight)
+                TableCell(text = "Category", weight = column3Weight)
             }
         }
-        // Here are all the lines of your table.
+        //This displays 6 orders in the order list
         items(1) {
             for (order in 0..6) {
-                Row(Modifier.fillMaxWidth()) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)) {
                     if (orders.size > order) {
                         TableCell(text = orders[order].orderNum.toString(), weight = column1Weight)
-                        TableCell(text = orders[order].dateOrdered, weight=column2Weight )
+                        TableCell(text = orders[order].amount, weight=column2Weight )
                         TableCell(text = orders[order].orderCategory, weight = column2Weight)
                     }
                     else{
@@ -97,6 +104,8 @@ fun TableScreen(orders: MutableList<UserOrder>) {
 
 @Composable
 fun HomeScreen(modifier : Modifier = Modifier, orders : MutableList<UserOrder>,  showNextScreen: () -> Unit, showLoginScreen: () -> Unit){
+    //This displays the homescreen to the user
+    //It takes in the user's orders and functions to move between composables
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             modifier = modifier,
@@ -117,16 +126,21 @@ fun HomeScreen(modifier : Modifier = Modifier, orders : MutableList<UserOrder>, 
             )
             TableScreen(orders)
         }
+        //settings icon
+        Image(painter = painterResource(id = R.drawable.settings_icon), contentDescription = null, modifier = Modifier.width(50.dp) )
+
         Button(onClick = showLoginScreen) {
             Text("Sign Out")
         }
+
+        
     }
 }
 
 @Preview
 @Composable
 fun HomeScreenPreview(){
-
+    //This displays the above composable
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
             HomeScreen(modifier = Modifier, mutableListOf(UserOrder(1, "1/1/1970", "Shirt"), UserOrder(2, "9/11/2001", "Mug"), UserOrder(3, "8/12/2003", "Shirt")), {"Hello"}, {"Hello"})

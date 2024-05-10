@@ -1,3 +1,9 @@
+/*
+*  File Name: ThankYou.kt
+*  Author: Lane Odenbach
+*  This file displays a thank you message
+* */
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +21,7 @@ import com.example.snapprint.ui.theme.SnapPrintTheme
 
 @Composable
 fun ThankYouScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
+    //This function just shows a thank you message and returns to the home screen
     Column(modifier = modifier, verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             modifier = modifier,
@@ -48,7 +55,7 @@ fun ThankYouScreen(modifier : Modifier = Modifier, showNextScreen : () -> Unit){
 @Preview
 @Composable
 fun ThankYouScreenPreview(){
-
+    // This shows the above composable
     SnapPrintTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
             ThankYouScreen(modifier = Modifier, {"Do nothing"})
